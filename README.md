@@ -46,7 +46,7 @@
 
 OrbitCareer AI is a **production-grade autonomous recruiter intelligence platform** built on top of **Groq's ultra-fast LLaMA 3.1 inference engine**. It processes resumes in bulk — PDF, DOCX, or raw pasted text — and within seconds returns a comprehensive AI-generated candidate report covering 21 distinct intelligence dimensions.
 
-Unlike traditional ATS (Applicant Tracking Systems) which do nothing more than keyword matching, OrbitCareer AI uses **multi-prompt Agentic AI chaining** — each candidate triggers a sequence of 7 specialized LLM calls, each responsible for one analytical dimension, producing outputs no conventional ATS can generate.
+Unlike traditional ATS (Applicant Tracking Systems) which do nothing more than keyword matching, OrbitCareer AI uses **multi-prompt Agentic AI chaining** — each candidate triggers a sequence of 10 specialized LLM calls, each responsible for one analytical dimension, producing outputs no conventional ATS can generate.
 
 > **Core thesis:** Hiring decisions should be data-driven, contextually aware, and AI-augmented — not keyword-filtered. OrbitCareer AI delivers a senior recruiter's 4-hour analysis in under 30 seconds, at zero marginal cost per candidate.
 
@@ -76,13 +76,13 @@ Unlike traditional ATS (Applicant Tracking Systems) which do nothing more than k
 | Salary estimate | ❌ | ✅ Market range per profile |
 | Culture fit | ❌ | ✅ Startup alignment score 0–100 |
 | Skill gap analysis | ❌ | ✅ Missing skills highlighted |
-| ATS compatibility score | ❌ Meta-ironic | ✅ Score + 3 tips |
+| ATS compatibility score | ❌ | ✅ Score + 3 improvement tips |
 | Interview questions | ❌ | ✅ 5 role-tailored technical Qs |
 | LinkedIn outreach | ❌ | ✅ Personalised, ready to send |
 | Email draft | ❌ | ✅ Full email with subject line |
 | Executive summary | ❌ | ✅ 3-sentence recruiter brief |
 | PDF reports | ❌ | ✅ Branded, download-ready |
-| Dark mode | ❌ | ✅ Full theme toggle |
+| Dark / Light mode | ❌ | ✅ Full theme toggle |
 | Setup cost | $$$$ /month | ✅ Free (Groq free tier) |
 
 ---
@@ -96,11 +96,11 @@ Unlike traditional ATS (Applicant Tracking Systems) which do nothing more than k
 | **Frontend** | Streamlit 1.28+ | Interactive web UI, dark/light mode, tabs, sidebar |
 | **LLM Engine** | Groq Cloud API | Ultra-fast LLaMA 3.1-8B inference (<500ms/call) |
 | **LLM Model** | LLaMA 3.1-8B Instant | Multi-prompt agentic pipeline |
-| **AI Pattern** | Agentic AI / LLM Chaining | 7 sequential specialized prompts per candidate |
+| **AI Pattern** | Agentic AI / LLM Chaining | 10 sequential specialized prompts per candidate |
 | **PDF Generation** | fpdf2 | Branded executive PDF reports |
 | **Resume Parsing** | pypdf + python-docx | PDF & DOCX text extraction |
 | **Environment** | python-dotenv | Secure API key management |
-| **Database** | psycopg2 + PostgreSQL | Optional persistent candidate storage |
+| **Database** | psycopg2-binary + PostgreSQL | Optional persistent candidate storage |
 | **Deployment** | Streamlit Cloud | Free public URL, GitHub-connected CI |
 
 ### LLM & Agentic AI
@@ -109,9 +109,9 @@ Unlike traditional ATS (Applicant Tracking Systems) which do nothing more than k
 |---|---|
 | **Provider** | Groq Cloud (groq.com) |
 | **Model** | `llama-3.1-8b-instant` |
-| **Pattern** | Multi-prompt Agentic Chain (7 LLM calls/candidate) |
+| **Pattern** | Multi-prompt Agentic Chain (10 LLM calls/candidate) |
 | **JSON Mode** | Structured outputs via `response_format: json_object` |
-| **RAG** | Implicit RAG — resume text injected as context window per call |
+| **RAG** | Implicit RAG — resume text injected as context per call |
 | **Temperature** | 0.0 for analytical tasks · 0.3–0.7 for creative outputs |
 | **Automation** | Fully autonomous pipeline — zero human input after upload |
 
@@ -130,7 +130,7 @@ Unlike traditional ATS (Applicant Tracking Systems) which do nothing more than k
 ├──────────────────┼─────────────────────────┼───────────────────────────┤
 │                  │                         │                           │
 │ ┌──────────────┐ │  ┌───────────────────┐  │  ┌─────────────────────┐ │
-│ │ PDF Upload   │ │  │  Groq API         │  │  │ Talent Score Card   │ │
+│ │ PDF Upload   │ │  │  Groq Cloud API   │  │  │ Talent Score Card   │ │
 │ │ DOCX Upload  │─┼─▶│  LLaMA 3.1-8B    │  │  │ Hire Recommendation │ │
 │ │ Raw Text     │ │  │  Instant Inference│  │  │ Skill Gap Tags      │ │
 │ └──────────────┘ │  │                   │  │  │ Interview Questions  │ │
@@ -183,25 +183,25 @@ Unlike traditional ATS (Applicant Tracking Systems) which do nothing more than k
                     │   missing_skills             │
                     └──────────────┬───────────────┘
                                    │
-               ┌───────────────────┼───────────────────┐
-               │                   │                   │
-               ▼                   ▼                   ▼
-   ┌──────────────────┐ ┌──────────────────┐ ┌──────────────────┐
-   │ PROMPT 3         │ │ PROMPT 4         │ │ PROMPT 5         │
-   │ LinkedIn Outreach│ │ Email Draft      │ │ ATS Score + Tips │
-   └────────┬─────────┘ └────────┬─────────┘ └────────┬─────────┘
-            │                    │                    │
-            └──────────┬─────────┘                   │
-                       │                             │
-               ┌───────▼──────────┐      ┌──────────▼───────────┐
+               ┌───────────────────┼──────────────────┐
+               │                   │                  │
+               ▼                   ▼                  ▼
+   ┌──────────────────┐ ┌──────────────────┐ ┌─────────────────┐
+   │ PROMPT 3         │ │ PROMPT 4         │ │ PROMPT 5        │
+   │ LinkedIn Outreach│ │ Email Draft      │ │ ATS Score+Tips  │
+   └────────┬─────────┘ └────────┬─────────┘ └────────┬────────┘
+            │                    │                     │
+            └──────────┬─────────┘                    │
+                       │                              │
+               ┌───────▼──────────┐      ┌───────────▼──────────┐
                │ PROMPT 6         │      │ PROMPT 7             │
                │ Salary Estimate  │      │ Personality Profile  │
-               └───────┬──────────┘      └──────────┬───────────┘
+               └───────┬──────────┘      └───────────┬──────────┘
                        │                             │
-               ┌───────▼──────────┐      ┌──────────▼───────────┐
+               ┌───────▼──────────┐      ┌───────────▼──────────┐
                │ PROMPT 8         │      │ PROMPT 9             │
                │ Culture Fit Score│      │ Executive Summary    │
-               └───────┬──────────┘      └──────────┬───────────┘
+               └───────┬──────────┘      └───────────┬──────────┘
                        │                             │
                        └──────────┬──────────────────┘
                                   │
@@ -251,18 +251,25 @@ Unlike traditional ATS (Applicant Tracking Systems) which do nothing more than k
 ## 📸 Platform Screenshots
 
 ### Dashboard — Talent Pool Matrix & Metrics
-![Dashboard](Screenshots/1779997018591_image.png)
+![Dashboard](Screenshots/SC1.PNG)
 
-### Candidate Card — Full AI Analysis
-![Candidate Analysis](Screenshots/1780251297854_image.png)
+### Candidate Card — Full AI Analysis (Light Mode)
+![Candidate Analysis](Screenshots/SC2.PNG)
 
 ### Dark Mode — Complete Theme
-![Dark Mode](Screenshots/1780256438261_image.png)
+![Dark Mode](Screenshots/SC3.PNG)
+
+### Feature Toggles & Sidebar Configuration
+![Sidebar](Screenshots/SC4.PNG)
 
 ### Bulk Upload — PDF & DOCX Processing
-![Bulk Upload](Screenshots/1780422911334_image.png)
+![Bulk Upload](Screenshots/SC5.PNG)
 
-> **Live Demo:** [🚀 Launch OrbitCareer AI](https://share.streamlit.io) *(deploy to get your public URL)*
+### Candidate Comparison Mode
+![Comparison](Screenshots/SC6.PNG)
+
+### PDF Executive Report Download
+![PDF Report](Screenshots/SC7.PNG)
 
 ---
 
@@ -286,7 +293,7 @@ pip install -r requirements.txt
 ```
 
 ### Step 4 — Create `.env` file
-Create a file named `.env` in the project root folder:
+Create a file named `.env` in the project root:
 ```env
 GROQ_API_KEY=your_groq_api_key_here
 ```
@@ -296,7 +303,7 @@ Get your **free** API key at: [https://console.groq.com](https://console.groq.co
 ```powershell
 streamlit run frontend.py
 ```
-App opens at: **http://localhost:8501**
+Opens at: **http://localhost:8501**
 
 ### Stop the app
 ```
@@ -307,28 +314,28 @@ Ctrl + C
 
 ## 🌐 Deploy on Streamlit Cloud (Free)
 
-Get a **permanent public URL** — free forever, GitHub-connected CI/CD:
+**Step 1 — Push to GitHub**
+```powershell
+cd "F:\Django Portfolio\orbitcareer-ai"
+.\venv\Scripts\Activate.ps1
+git add .
+git commit -m "fix: psycopg2-binary, updated README with correct screenshot paths"
+git push origin main
+```
 
-**Step 1 — Push to GitHub** *(already done)*
-
-**Step 2 — Deploy**
+**Step 2 — Deploy on Streamlit Cloud**
 1. Go to **[https://share.streamlit.io](https://share.streamlit.io)**
-2. Sign in with your GitHub account
+2. Sign in with GitHub
 3. Click **New app**
 4. Select:
    - Repository: `Aghawafaabbass/orbitcareer-ai`
    - Branch: `main`
    - Main file: `frontend.py`
-5. Click **Advanced settings → Secrets** and paste:
+5. **Advanced settings → Secrets** — paste:
 ```toml
 GROQ_API_KEY = "gsk_your_actual_groq_key_here"
 ```
 6. Click **Deploy** → live in ~2 minutes ✅
-
-Your app URL will be:
-```
-https://aghawafaabbass-orbitcareer-ai-frontend-XXXXX.streamlit.app
-```
 
 > Every `git push` to `main` **auto-redeploys** — no manual steps needed.
 
@@ -353,13 +360,16 @@ orbitcareer-ai/
 │
 ├── frontend.py           ← 🧠 Main app — all 21 features, full UI
 ├── app.py                ← Legacy test file
-├── test_ai.py            ← Unit test / Groq API test
+├── test_ai.py            ← Unit test / Groq API connectivity test
 │
 ├── Screenshots/          ← Platform screenshots (used in README)
-│   ├── 1779997018591_image.png
-│   ├── 1780251297854_image.png
-│   ├── 1780256438261_image.png
-│   └── 1780422911334_image.png
+│   ├── SC1.PNG           ← Dashboard & Talent Pool Matrix
+│   ├── SC2.PNG           ← Candidate Card Full Analysis
+│   ├── SC3.PNG           ← Dark Mode Theme
+│   ├── SC4.PNG           ← Sidebar & Feature Toggles
+│   ├── SC5.PNG           ← Bulk Upload Zone
+│   ├── SC6.PNG           ← Candidate Comparison Mode
+│   └── SC7.PNG           ← PDF Export
 │
 ├── .env                  ← 🔒 API keys — NEVER commit (in .gitignore)
 ├── .gitignore            ← Excludes .env, venv/, __pycache__/
@@ -371,27 +381,28 @@ orbitcareer-ai/
 
 ## 🧠 LLM & Agentic AI Design
 
-OrbitCareer AI uses a **10-prompt Agentic AI chain** per candidate — each prompt is a specialized AI agent responsible for one analytical task:
+OrbitCareer AI uses a **10-prompt Agentic AI chain** per candidate — each prompt is a specialized AI agent:
 
 ```python
-# Prompt chain per candidate (simplified)
-1. call_groq(role_detection_prompt)         # → assigned_target_role
-2. call_groq(core_parse_prompt, json=True)  # → name, skills, score, flags, questions, missing_skills
-3. call_groq(linkedin_prompt, temp=0.7)     # → personalised outreach message
-4. call_groq(email_prompt, temp=0.7)        # → full email with subject line
-5. call_groq(ats_prompt, json=True)         # → ats_score, ats_tips
-6. call_groq(salary_prompt, json=True)      # → salary_range
-7. call_groq(personality_prompt, json=True) # → personality_type, personality_desc
-8. call_groq(culture_prompt, json=True)     # → culture_score, culture_notes
-9. call_groq(summary_prompt, temp=0.5)      # → 3-sentence executive summary
-10. call_groq(hire_rec_prompt, json=True)   # → Strong Hire / Hire / Maybe / No Hire
+# Prompt chain per candidate
+1.  call_groq(role_detection_prompt)          # → assigned_target_role
+2.  call_groq(core_parse_prompt, json=True)   # → name, skills, score, flags,
+                                              #   questions, missing_skills
+3.  call_groq(linkedin_prompt, temp=0.7)      # → personalised outreach message
+4.  call_groq(email_prompt, temp=0.7)         # → full email with subject line
+5.  call_groq(ats_prompt, json=True)          # → ats_score, ats_tips
+6.  call_groq(salary_prompt, json=True)       # → salary_range
+7.  call_groq(personality_prompt, json=True)  # → personality_type, desc
+8.  call_groq(culture_prompt, json=True)      # → culture_score, culture_notes
+9.  call_groq(summary_prompt, temp=0.5)       # → 3-sentence executive summary
+10. call_groq(hire_rec_prompt, json=True)     # → Strong Hire / Hire / Maybe / No Hire
 ```
 
-**Why Groq?** Groq's LPU (Language Processing Unit) hardware delivers ~500 token/sec inference — 10x faster than GPT-4o API at zero cost on the free tier. For bulk batch processing of 10–15 resumes, this means full analysis in under 3 minutes total.
+**Why Groq?** Groq's LPU (Language Processing Unit) delivers ~500 tokens/sec — 10x faster than GPT-4o at zero cost on the free tier. 10–15 resumes fully processed in under 3 minutes.
 
-**Structured outputs** via `response_format: {"type": "json_object"}` ensure deterministic, parseable JSON — no hallucinated markdown, no broken parsing.
+**Structured JSON outputs** via `response_format: {"type": "json_object"}` ensure deterministic, parseable results — no broken markdown, no hallucinated formatting.
 
-**Implicit RAG:** Each prompt injects the full resume text as a context document — lightweight, zero-infrastructure Retrieval-Augmented Generation without a vector store.
+**Implicit RAG:** Each prompt injects the full resume text as a context document — lightweight Retrieval-Augmented Generation without a vector store or embedding pipeline.
 
 ---
 
