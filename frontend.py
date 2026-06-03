@@ -29,25 +29,81 @@ if "shortlisted" not in st.session_state:
 if "notes" not in st.session_state:
     st.session_state.notes = {}
 
-# ── Shared UI styles (no theme overrides — let Streamlit handle colors) ───────
-st.markdown("""
+# ── CSS: shared + dark mode via class on body ────────────────────────────────
+dark = st.session_state.dark_mode
+
+st.markdown(f"""
 <style>
-.block-container { padding-top: 1.5rem; padding-bottom: 2rem; }
-.score-pill { display:inline-block; padding:3px 13px; border-radius:99px; font-size:12px; font-weight:600; }
-.score-high { background:#d1fae5; color:#065f46; }
-.score-mid  { background:#fef3c7; color:#92400e; }
-.score-low  { background:#fee2e2; color:#991b1b; }
-.skill-tag  { display:inline-block; background:#e0f2fe; color:#0369a1;
-              border-radius:5px; padding:2px 9px; font-size:11px; margin:2px 2px; font-weight:500; }
-.skill-gap-tag { display:inline-block; background:#fee2e2; color:#991b1b;
-                 border-radius:5px; padding:2px 9px; font-size:11px; margin:2px 2px; font-weight:500; }
-.paste-hint { background:#f0f9ff; border-left:4px solid #0ea5e9; border-radius:6px;
-              padding:10px 14px; font-size:13px; color:#0369a1; margin-bottom:10px; }
-[data-testid="metric-container"] { border-radius:10px; padding:12px 16px; }
-.stDownloadButton > button {
+/* ── Base styles ── */
+.block-container {{ padding-top: 1.5rem; padding-bottom: 2rem; }}
+.score-pill {{ display:inline-block; padding:3px 13px; border-radius:99px; font-size:12px; font-weight:600; }}
+.score-high {{ background:#d1fae5; color:#065f46; }}
+.score-mid  {{ background:#fef3c7; color:#92400e; }}
+.score-low  {{ background:#fee2e2; color:#991b1b; }}
+.skill-tag  {{ display:inline-block; background:#e0f2fe; color:#0369a1;
+               border-radius:5px; padding:2px 9px; font-size:11px; margin:2px 2px; font-weight:500; }}
+.skill-gap-tag {{ display:inline-block; background:#fee2e2; color:#991b1b;
+                  border-radius:5px; padding:2px 9px; font-size:11px; margin:2px 2px; font-weight:500; }}
+.paste-hint {{ background:#f0f9ff; border-left:4px solid #0ea5e9; border-radius:6px;
+               padding:10px 14px; font-size:13px; color:#0369a1; margin-bottom:10px; }}
+[data-testid="metric-container"] {{ border-radius:10px; padding:12px 16px; }}
+.stDownloadButton > button {{
     background:#185FA5 !important; color:white !important;
     border-radius:8px !important; border:none !important; font-weight:500 !important;
+}}
+
+/* ── DARK MODE styles (applied when data-theme=dark) ── */
+{"" if not dark else """
+.stApp,
+[data-testid='stAppViewContainer'],
+[data-testid='stMainBlockContainer'],
+.block-container {
+    background-color: #0f172a !important;
 }
+section[data-testid='stSidebar'] > div:first-child {
+    background-color: #1e293b !important;
+}
+[data-testid='stHeader'] {
+    background-color: #0f172a !important;
+}
+.stApp h1, .stApp h2, .stApp h3, .stApp p,
+[data-testid='stMarkdownContainer'] p,
+[data-testid='stMarkdownContainer'] li,
+[data-testid='stMarkdownContainer'] strong {
+    color: #e2e8f0 !important;
+}
+section[data-testid='stSidebar'] p,
+section[data-testid='stSidebar'] label,
+section[data-testid='stSidebar'] span,
+section[data-testid='stSidebar'] small,
+section[data-testid='stSidebar'] [data-testid='stMarkdownContainer'] p {
+    color: #e2e8f0 !important;
+}
+[data-testid='stWidgetLabel'] p { color: #e2e8f0 !important; }
+[data-testid='metric-container'] {
+    background: #1e293b !important;
+    border: 1px solid #334155 !important;
+}
+[data-testid='metric-container'] label,
+[data-testid='stMetricValue'],
+[data-testid='stMetricDelta'] { color: #e2e8f0 !important; }
+.stTextInput input, .stTextArea textarea {
+    background: #1e293b !important;
+    color: #e2e8f0 !important;
+    border: 1px solid #334155 !important;
+}
+[data-baseweb='tab-list'] { background: #1e293b !important; }
+[data-baseweb='tab'] span { color: #94a3b8 !important; }
+[aria-selected='true'] span { color: #60a5fa !important; }
+[data-testid='stTable'] table { background: #1e293b !important; }
+[data-testid='stTable'] th { background: #0f172a !important; color: #94a3b8 !important; }
+[data-testid='stTable'] td { color: #e2e8f0 !important; }
+[data-testid='stCaptionContainer'] p { color: #94a3b8 !important; }
+.stButton > button {
+    background: #1e40af !important; color: #fff !important;
+    border:none !important; border-radius:8px !important;
+}
+"""}
 </style>
 """, unsafe_allow_html=True)
 
