@@ -1,0 +1,7 @@
+streamlit
+groq
+python-dotenv
+fpdf2
+pypdf
+python-docx
+psycopg2-binary
