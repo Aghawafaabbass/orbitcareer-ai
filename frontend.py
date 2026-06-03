@@ -794,7 +794,7 @@ text-align:center;color:{ft_txt};font-size:13px;line-height:2">
 <strong style="color:{ft_str}">OrbitCareer AI Platform</strong>
 &nbsp;·&nbsp; Global Autonomous Career Agent<br>
 Developed by <strong style="color:{ft_str}">Agha Wafa Abbas</strong>
-&nbsp;·&nbsp; All rights reserved &copy; 2025<br>
+&nbsp;·&nbsp; All rights reserved &copy; 2026<br>
 <span style="font-size:11px;color:#64748b">
 Powered by Groq LLaMA 3.1 &nbsp;·&nbsp; Built with Streamlit
 </span>
