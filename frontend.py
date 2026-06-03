@@ -1,7 +1,11 @@
 import os
 import json
 import time
-import psycopg2
+try:
+    import psycopg2
+    PSYCOPG2_AVAILABLE = True
+except ImportError:
+    PSYCOPG2_AVAILABLE = False
 import streamlit as st
 from groq import Groq
 from dotenv import load_dotenv
@@ -121,6 +125,8 @@ st.markdown("""
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 def save_to_database(name, skills, experience, raw_text, score, target_role, red_flags):
+    if not PSYCOPG2_AVAILABLE:
+        return False
     try:
         conn = psycopg2.connect(
             host=os.environ.get("DB_HOST","localhost"),
@@ -154,30 +160,30 @@ def generate_pdf_report(name, exp, skills, message, score, role, flags, question
         pdf.set_text_color(255,255,255)
         pdf.set_font("Helvetica","B",17)
         pdf.set_xy(10,7)
-        pdf.cell(0,10,"OrbitCareer AI -- Executive Report",ln=True)
+        pdf.cell(0,10,"OrbitCareer AI -- Executive Report", new_x="LMARGIN", new_y="NEXT")
         pdf.set_font("Helvetica","",9)
         pdf.set_xy(10,20)
-        pdf.cell(0,6,"Developed by Agha Wafa Abbas  |  Confidential",ln=True)
+        pdf.cell(0,6,"Developed by Agha Wafa Abbas  |  Confidential", new_x="LMARGIN", new_y="NEXT")
         pdf.set_text_color(0,0,0)
         pdf.set_xy(10,40)
         pdf.set_font("Helvetica","B",13)
-        pdf.cell(0,8,f"Candidate: {str(name)}",ln=True)
+        pdf.cell(0,8,f"Candidate: {str(name)}", new_x="LMARGIN", new_y="NEXT")
         pdf.set_font("Helvetica","",11)
-        pdf.cell(0,7,f"Target Role: {str(role)}  |  Talent Score: {str(score)}/100",ln=True)
-        pdf.cell(0,7,f"Experience: {str(exp)} Yrs  |  ATS: {str(ats_score)}/100  |  Salary: {str(salary_est)}",ln=True)
-        pdf.cell(0,7,f"Personality: {str(personality)}  |  Culture Fit: {str(culture)}/100",ln=True)
+        pdf.cell(0,7,f"Target Role: {str(role)}  |  Talent Score: {str(score)}/100", new_x="LMARGIN", new_y="NEXT")
+        pdf.cell(0,7,f"Experience: {str(exp)} Yrs  |  ATS: {str(ats_score)}/100  |  Salary: {str(salary_est)}", new_x="LMARGIN", new_y="NEXT")
+        pdf.cell(0,7,f"Personality: {str(personality)}  |  Culture Fit: {str(culture)}/100", new_x="LMARGIN", new_y="NEXT")
         pdf.ln(2)
         if summary:
             pdf.set_font("Helvetica","B",11)
             pdf.set_fill_color(235,241,251)
-            pdf.cell(0,7,"Executive Summary",ln=True,fill=True)
+            pdf.cell(0,7,"Executive Summary", fill=True, new_x="LMARGIN", new_y="NEXT")
             pdf.set_font("Helvetica","",10)
             pdf.multi_cell(0,6,str(summary).encode("latin-1","ignore").decode("latin-1"))
             pdf.ln(2)
         if notes:
             pdf.set_font("Helvetica","B",11)
             pdf.set_fill_color(255,249,219)
-            pdf.cell(0,7,"Recruiter Notes",ln=True,fill=True)
+            pdf.cell(0,7,"Recruiter Notes", fill=True, new_x="LMARGIN", new_y="NEXT")
             pdf.set_font("Helvetica","",10)
             pdf.multi_cell(0,6,str(notes).encode("latin-1","ignore").decode("latin-1"))
             pdf.ln(2)
@@ -188,7 +194,7 @@ def generate_pdf_report(name, exp, skills, message, score, role, flags, question
         ]:
             pdf.set_font("Helvetica","B",11)
             pdf.set_fill_color(235,241,251)
-            pdf.cell(0,7,heading,ln=True,fill=True)
+            pdf.cell(0,7,heading, fill=True, new_x="LMARGIN", new_y="NEXT")
             pdf.set_font("Helvetica","",10)
             pdf.multi_cell(0,6,body.encode("latin-1","ignore").decode("latin-1"))
             pdf.ln(2)
