@@ -7,7 +7,7 @@
 ╚══════════════════════════════════════════════════════════════════════════╝
 ```
 
-[![Streamlit App](https://img.shields.io/badge/%F0%9F%9A%80_Live_Demo-Streamlit_Cloud-FF4B4B?style=for-the-badge&logo=streamlit)](https://share.streamlit.io)
+[![Streamlit App](https://img.shields.io/badge/%F0%9F%9A%80_Live_Demo-Streamlit_Cloud-FF4B4B?style=for-the-badge&logo=streamlit)](https://orbitcareer-ai-dpywdb65xtbfvhfvhr9hkx.streamlit.app)
 [![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![Groq](https://img.shields.io/badge/Groq-LLaMA_3.1-F55036?style=for-the-badge)](https://console.groq.com)
 [![LLM](https://img.shields.io/badge/LLM-Agentic_AI-8B5CF6?style=for-the-badge)](https://groq.com)
@@ -324,7 +324,7 @@ git push origin main
 ```
 
 **Step 2 — Deploy on Streamlit Cloud**
-1. Go to **[https://share.streamlit.io](https://share.streamlit.io)**
+1. Go to **[https://orbitcareer-ai-dpywdb65xtbfvhfvhr9hkx.streamlit.app](https://orbitcareer-ai-dpywdb65xtbfvhfvhr9hkx.streamlit.app)**
 2. Sign in with GitHub
 3. Click **New app**
 4. Select:
