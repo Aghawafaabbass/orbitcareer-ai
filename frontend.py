@@ -29,131 +29,25 @@ if "shortlisted" not in st.session_state:
 if "notes" not in st.session_state:
     st.session_state.notes = {}
 
-def get_theme_css(dark):
-    if dark:
-        return """
-<style>
-/* ── DARK MODE — Full App ── */
-.stApp { background-color: #0f172a !important; }
-.stApp * { color: #e2e8f0 !important; }
-.block-container { background-color: #0f172a !important; padding-top:1.5rem; padding-bottom:2rem; }
-
-/* Sidebar dark */
-section[data-testid="stSidebar"] > div:first-child {
-    background-color: #1e293b !important;
-    border-right: 1px solid #334155 !important;
-}
-section[data-testid="stSidebar"] label,
-section[data-testid="stSidebar"] p,
-section[data-testid="stSidebar"] span,
-section[data-testid="stSidebar"] div,
-section[data-testid="stSidebar"] h1,
-section[data-testid="stSidebar"] h2,
-section[data-testid="stSidebar"] h3,
-section[data-testid="stSidebar"] small,
-section[data-testid="stSidebar"] .stMarkdown { color: #e2e8f0 !important; }
-
-/* Toggle / radio / slider labels */
-[data-testid="stSidebar"] [data-testid="stWidgetLabel"] p { color: #e2e8f0 !important; }
-[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p { color: #e2e8f0 !important; }
-
-/* Buttons */
-.stButton > button {
-    background: #1e40af !important; color: #ffffff !important;
-    border: none !important; border-radius: 8px !important;
-    font-size: 13px !important;
-}
-.stDownloadButton > button {
-    background: #185FA5 !important; color: #ffffff !important;
-    border-radius: 8px !important; border: none !important; font-weight:500 !important;
-}
-
-/* Inputs */
-input, textarea,
-.stTextInput input, .stTextArea textarea {
-    background: #1e293b !important; color: #e2e8f0 !important;
-    border: 1px solid #334155 !important; border-radius: 6px !important;
-}
-input::placeholder, textarea::placeholder { color: #64748b !important; }
-
-/* Metrics */
-[data-testid="metric-container"] {
-    background: #1e293b !important; border: 1px solid #334155 !important;
-    border-radius: 10px; padding: 12px 16px;
-}
-[data-testid="metric-container"] * { color: #e2e8f0 !important; }
-
-/* Tabs */
-[data-baseweb="tab-list"] { background: #1e293b !important; }
-[data-baseweb="tab"] { color: #94a3b8 !important; }
-[aria-selected="true"][data-baseweb="tab"] { color: #60a5fa !important; border-bottom-color: #60a5fa !important; }
-[data-baseweb="tab-panel"] { background: #0f172a !important; }
-
-/* Tables */
-[data-testid="stTable"] table { background: #1e293b !important; }
-[data-testid="stTable"] th { background: #0f172a !important; color: #94a3b8 !important; }
-[data-testid="stTable"] td { color: #e2e8f0 !important; border-color: #334155 !important; }
-
-/* Alerts */
-[data-testid="stAlert"] > div { border-radius: 8px !important; }
-[data-testid="stNotification"] { background: #1e293b !important; }
-
-/* Expander */
-[data-testid="stExpander"] { background: #1e293b !important; border-color: #334155 !important; }
-[data-testid="stExpander"] summary { color: #e2e8f0 !important; }
-
-/* File uploader */
-[data-testid="stFileUploader"] { background: #1e293b !important; border-color: #334155 !important; }
-[data-testid="stFileUploader"] * { color: #e2e8f0 !important; }
-
-/* Caption / small text */
-.stCaption, small, [data-testid="stCaptionContainer"] { color: #94a3b8 !important; }
-
-/* Progress bar */
-[data-testid="stProgress"] > div > div { background-color: #185FA5 !important; }
-
-/* Selectbox */
-[data-baseweb="select"] { background: #1e293b !important; }
-[data-baseweb="select"] * { color: #e2e8f0 !important; background: #1e293b !important; }
-</style>"""
-    else:
-        return """
-<style>
-/* ── LIGHT MODE ── */
-.stApp { background-color: #f8fafc !important; }
-.block-container { padding-top: 1.5rem; padding-bottom: 2rem; }
-section[data-testid="stSidebar"] > div:first-child {
-    background-color: #f0f4f8 !important;
-    border-right: 1px solid #e2e8f0 !important;
-}
-[data-testid="metric-container"] {
-    background: #ffffff; border: 1px solid #e9ecef;
-    border-radius: 10px; padding: 12px 16px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-}
-.stButton > button { border-radius: 8px !important; font-size: 13px !important; }
-.stDownloadButton > button {
-    background: #185FA5 !important; color: white !important;
-    border-radius: 8px !important; border: none !important; font-weight: 500 !important;
-}
-</style>"""
-
-# Apply theme
-st.markdown(get_theme_css(st.session_state.dark_mode), unsafe_allow_html=True)
-
-# ── Shared styles (always applied) ───────────────────────────────────────────
+# ── Shared UI styles (no theme overrides — let Streamlit handle colors) ───────
 st.markdown("""
 <style>
+.block-container { padding-top: 1.5rem; padding-bottom: 2rem; }
 .score-pill { display:inline-block; padding:3px 13px; border-radius:99px; font-size:12px; font-weight:600; }
 .score-high { background:#d1fae5; color:#065f46; }
 .score-mid  { background:#fef3c7; color:#92400e; }
 .score-low  { background:#fee2e2; color:#991b1b; }
-.skill-tag  { display:inline-block; background:#e0f2fe; color:#0369a1; border-radius:5px;
-              padding:2px 9px; font-size:11px; margin:2px 2px; font-weight:500; }
-.skill-gap-tag { display:inline-block; background:#fee2e2; color:#991b1b; border-radius:5px;
-                 padding:2px 9px; font-size:11px; margin:2px 2px; font-weight:500; }
+.skill-tag  { display:inline-block; background:#e0f2fe; color:#0369a1;
+              border-radius:5px; padding:2px 9px; font-size:11px; margin:2px 2px; font-weight:500; }
+.skill-gap-tag { display:inline-block; background:#fee2e2; color:#991b1b;
+                 border-radius:5px; padding:2px 9px; font-size:11px; margin:2px 2px; font-weight:500; }
 .paste-hint { background:#f0f9ff; border-left:4px solid #0ea5e9; border-radius:6px;
               padding:10px 14px; font-size:13px; color:#0369a1; margin-bottom:10px; }
+[data-testid="metric-container"] { border-radius:10px; padding:12px 16px; }
+.stDownloadButton > button {
+    background:#185FA5 !important; color:white !important;
+    border-radius:8px !important; border:none !important; font-weight:500 !important;
+}
 </style>
 """, unsafe_allow_html=True)
 
