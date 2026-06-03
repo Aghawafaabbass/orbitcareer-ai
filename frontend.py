@@ -227,48 +227,59 @@ def call_groq(client, prompt, json_mode=False, temperature=0.0):
 
 # ── SIDEBAR ───────────────────────────────────────────────────────────────────
 with st.sidebar:
-    dark_label = "☀️ Light Mode" if st.session_state.dark_mode else "🌙 Dark Mode"
-    if st.button(dark_label, use_container_width=True, key="theme_toggle"):
+    # Theme toggle
+    dark_label = "Switch to Light Mode" if st.session_state.dark_mode else "Switch to Dark Mode"
+    dark_icon  = "☀️" if st.session_state.dark_mode else "🌙"
+    if st.button(f"{dark_icon}  {dark_label}", use_container_width=True, key="theme_toggle"):
         st.session_state.dark_mode = not st.session_state.dark_mode
         st.rerun()
 
     st.markdown("---")
-    st.markdown("## ⚙️ Configuration")
+    st.markdown("### ⚙️ Configuration")
 
-    st.markdown("### 🎯 Role Mapping")
-    role_mode = st.radio("Mode:",["🤖 Auto-Scan (AI Mode)","🔧 Manual Override"],key="role_mode")
+    st.markdown("**Role Mapping**")
+    role_mode = st.radio(
+        "Detection Mode:",
+        ["Auto-Scan (AI Mode)", "Manual Override"],
+        key="role_mode",
+        label_visibility="collapsed",
+    )
     manual_role_input = ""
-    if role_mode == "🔧 Manual Override":
-        manual_role_input = st.text_input("Target Role:", value="Senior ML Engineer")
+    if role_mode == "Manual Override":
+        manual_role_input = st.text_input(
+            "Target Role:", value="Senior ML Engineer", placeholder="e.g. Data Scientist"
+        )
 
-    st.markdown("### 🔧 Feature Toggles")
-    enable_ats         = st.toggle("🤖 ATS Score Simulator",     value=True)
-    enable_salary      = st.toggle("💰 Salary Range Estimator",  value=True)
-    enable_gap         = st.toggle("⚠️ Skill Gap Analysis",      value=True)
-    enable_compare     = st.toggle("⚖️ Candidate Comparison",    value=True)
-    enable_personality = st.toggle("🧠 Personality Profiling",   value=True)
-    enable_culture     = st.toggle("🏢 Culture Fit Score",       value=True)
-    enable_summary     = st.toggle("📝 Executive Summary",       value=True)
-    enable_notes       = st.toggle("📌 Recruiter Notes",         value=True)
-    enable_shortlist   = st.toggle("⭐ Shortlist Manager",       value=True)
-    enable_email       = st.toggle("📧 Email Draft",             value=True)
-    enable_db          = st.toggle("🗄️ Save to Database",        value=False)
+    st.markdown("---")
+    st.markdown("**Feature Toggles**")
+    enable_ats         = st.toggle("ATS Score Simulator",    value=True)
+    enable_salary      = st.toggle("Salary Estimator",       value=True)
+    enable_gap         = st.toggle("Skill Gap Analysis",     value=True)
+    enable_compare     = st.toggle("Candidate Comparison",   value=True)
+    enable_personality = st.toggle("Personality Profiling",  value=True)
+    enable_culture     = st.toggle("Culture Fit Score",      value=True)
+    enable_summary     = st.toggle("Executive Summary",      value=True)
+    enable_notes       = st.toggle("Recruiter Notes",        value=True)
+    enable_shortlist   = st.toggle("Shortlist Manager",      value=True)
+    enable_email       = st.toggle("Email Draft",            value=True)
+    enable_db          = st.toggle("Save to Database",       value=False)
 
-    st.markdown("### 📊 Filter Panel")
-    min_score_filter = st.slider("Min Talent Score:", 0, 100, 0)
-    exp_filter       = st.slider("Min Experience (yrs):", 0, 20, 0)
+    st.markdown("---")
+    st.markdown("**Filter Candidates**")
+    min_score_filter = st.slider("Min Talent Score", 0, 100, 0)
+    exp_filter       = st.slider("Min Experience (yrs)", 0, 20, 0)
 
     if enable_shortlist and st.session_state.shortlisted:
-        st.markdown("### ⭐ Shortlisted")
+        st.markdown("---")
+        st.markdown("**Shortlisted Candidates**")
         for nm in st.session_state.shortlisted:
             st.markdown(f"• {nm}")
-        if st.button("🗑 Clear Shortlist"):
+        if st.button("Clear Shortlist", use_container_width=True):
             st.session_state.shortlisted = []
             st.rerun()
 
     st.markdown("---")
-    st.caption("OrbitCareer AI v2.1")
-    st.caption("Developed by **Agha Wafa Abbas**")
+    st.caption("OrbitCareer AI v2.1  |  Developed by Agha Wafa Abbas")
 
 
 # ── HEADER ────────────────────────────────────────────────────────────────────
@@ -396,7 +407,7 @@ if execute_workflow:
 
                 # Role detection
                 assigned_target_role = manual_role_input
-                if role_mode == "🤖 Auto-Scan (AI Mode)":
+                if role_mode == "Auto-Scan (AI Mode)":
                     assigned_target_role = call_groq(groq_client,
                         f"Return ONLY a standard professional job title for this resume. No extra text.\nResume: {doc_content}")
 
