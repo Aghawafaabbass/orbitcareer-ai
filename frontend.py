@@ -33,92 +33,127 @@ def get_theme_css(dark):
     if dark:
         return """
 <style>
-html, body, .stApp, .stApp > div, [data-testid="stAppViewContainer"],
-[data-testid="stHeader"], [data-testid="stToolbar"],
-section[data-testid="stMainBlockContainer"],
-.block-container {
-    background-color: #0f172a !important;
-    color: #e2e8f0 !important;
-}
-[data-testid="stSidebar"], [data-testid="stSidebarContent"],
-[data-testid="stSidebarUserContent"] {
+/* ── DARK MODE — Full App ── */
+.stApp { background-color: #0f172a !important; }
+.stApp * { color: #e2e8f0 !important; }
+.block-container { background-color: #0f172a !important; padding-top:1.5rem; padding-bottom:2rem; }
+
+/* Sidebar dark */
+section[data-testid="stSidebar"] > div:first-child {
     background-color: #1e293b !important;
+    border-right: 1px solid #334155 !important;
 }
-[data-testid="stSidebar"] *, [data-testid="stSidebarContent"] *,
-[data-testid="stSidebarUserContent"] * {
-    color: #e2e8f0 !important;
+section[data-testid="stSidebar"] label,
+section[data-testid="stSidebar"] p,
+section[data-testid="stSidebar"] span,
+section[data-testid="stSidebar"] div,
+section[data-testid="stSidebar"] h1,
+section[data-testid="stSidebar"] h2,
+section[data-testid="stSidebar"] h3,
+section[data-testid="stSidebar"] small,
+section[data-testid="stSidebar"] .stMarkdown { color: #e2e8f0 !important; }
+
+/* Toggle / radio / slider labels */
+[data-testid="stSidebar"] [data-testid="stWidgetLabel"] p { color: #e2e8f0 !important; }
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p { color: #e2e8f0 !important; }
+
+/* Buttons */
+.stButton > button {
+    background: #1e40af !important; color: #ffffff !important;
+    border: none !important; border-radius: 8px !important;
+    font-size: 13px !important;
 }
-p, span, div, label, li, h1, h2, h3, h4, h5, h6,
-.stMarkdown, .stText, [data-testid="stMarkdownContainer"] {
-    color: #e2e8f0 !important;
+.stDownloadButton > button {
+    background: #185FA5 !important; color: #ffffff !important;
+    border-radius: 8px !important; border: none !important; font-weight:500 !important;
 }
+
+/* Inputs */
+input, textarea,
+.stTextInput input, .stTextArea textarea {
+    background: #1e293b !important; color: #e2e8f0 !important;
+    border: 1px solid #334155 !important; border-radius: 6px !important;
+}
+input::placeholder, textarea::placeholder { color: #64748b !important; }
+
+/* Metrics */
 [data-testid="metric-container"] {
-    background: #1e293b !important;
-    border: 1px solid #334155 !important;
+    background: #1e293b !important; border: 1px solid #334155 !important;
     border-radius: 10px; padding: 12px 16px;
 }
 [data-testid="metric-container"] * { color: #e2e8f0 !important; }
-.stButton > button {
-    background: #1e40af !important; color: #fff !important;
-    border: none !important; border-radius: 8px !important;
-}
-.stDownloadButton > button {
-    background: #185FA5 !important; color: white !important;
-    border-radius: 8px !important; border: none !important;
-    font-weight: 500 !important;
-}
-input, textarea, select,
-.stTextInput > div > div > input,
-.stTextArea > div > div > textarea {
-    background: #1e293b !important;
-    color: #e2e8f0 !important;
-    border: 1px solid #334155 !important;
-}
-.stSelectbox > div > div { background: #1e293b !important; color: #e2e8f0 !important; }
-.stTabs [data-baseweb="tab-list"] { background: #1e293b !important; }
-.stTabs [data-baseweb="tab"] { color: #94a3b8 !important; }
-.stTabs [aria-selected="true"] { color: #60a5fa !important; border-bottom-color: #60a5fa !important; }
-.stExpander { background: #1e293b !important; border-color: #334155 !important; }
-.streamlit-expanderHeader { color: #e2e8f0 !important; }
-div[data-testid="stTable"] table { background: #1e293b !important; color: #e2e8f0 !important; }
-div[data-testid="stTable"] th { background: #0f172a !important; color: #94a3b8 !important; }
-div[data-testid="stTable"] td { color: #e2e8f0 !important; border-color: #334155 !important; }
-[data-testid="stAlert"] { background: #1e293b !important; }
-[data-testid="stInfo"] { background: #172554 !important; color: #93c5fd !important; }
-[data-testid="stSuccess"] { background: #052e16 !important; color: #86efac !important; }
-[data-testid="stWarning"] { background: #1c1917 !important; color: #fcd34d !important; }
-[data-testid="stError"] { background: #450a0a !important; color: #fca5a5 !important; }
-.stRadio label, .stCheckbox label, .stToggle label { color: #e2e8f0 !important; }
-.stSlider [data-testid="stSlider"] * { color: #e2e8f0 !important; }
+
+/* Tabs */
+[data-baseweb="tab-list"] { background: #1e293b !important; }
+[data-baseweb="tab"] { color: #94a3b8 !important; }
+[aria-selected="true"][data-baseweb="tab"] { color: #60a5fa !important; border-bottom-color: #60a5fa !important; }
+[data-baseweb="tab-panel"] { background: #0f172a !important; }
+
+/* Tables */
+[data-testid="stTable"] table { background: #1e293b !important; }
+[data-testid="stTable"] th { background: #0f172a !important; color: #94a3b8 !important; }
+[data-testid="stTable"] td { color: #e2e8f0 !important; border-color: #334155 !important; }
+
+/* Alerts */
+[data-testid="stAlert"] > div { border-radius: 8px !important; }
+[data-testid="stNotification"] { background: #1e293b !important; }
+
+/* Expander */
+[data-testid="stExpander"] { background: #1e293b !important; border-color: #334155 !important; }
+[data-testid="stExpander"] summary { color: #e2e8f0 !important; }
+
+/* File uploader */
+[data-testid="stFileUploader"] { background: #1e293b !important; border-color: #334155 !important; }
+[data-testid="stFileUploader"] * { color: #e2e8f0 !important; }
+
+/* Caption / small text */
+.stCaption, small, [data-testid="stCaptionContainer"] { color: #94a3b8 !important; }
+
+/* Progress bar */
+[data-testid="stProgress"] > div > div { background-color: #185FA5 !important; }
+
+/* Selectbox */
+[data-baseweb="select"] { background: #1e293b !important; }
+[data-baseweb="select"] * { color: #e2e8f0 !important; background: #1e293b !important; }
 </style>"""
     else:
         return """
 <style>
+/* ── LIGHT MODE ── */
+.stApp { background-color: #f8fafc !important; }
 .block-container { padding-top: 1.5rem; padding-bottom: 2rem; }
-[data-testid="metric-container"] {
-    background: #f8f9fa; border: 1px solid #e9ecef;
-    border-radius: 10px; padding: 12px 16px;
+section[data-testid="stSidebar"] > div:first-child {
+    background-color: #f0f4f8 !important;
+    border-right: 1px solid #e2e8f0 !important;
 }
-section[data-testid="stSidebar"] { background: #f0f4f8; }
+[data-testid="metric-container"] {
+    background: #ffffff; border: 1px solid #e9ecef;
+    border-radius: 10px; padding: 12px 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.stButton > button { border-radius: 8px !important; font-size: 13px !important; }
 .stDownloadButton > button {
     background: #185FA5 !important; color: white !important;
-    border-radius: 8px !important; border: none !important;
-    font-weight: 500 !important;
+    border-radius: 8px !important; border: none !important; font-weight: 500 !important;
 }
 </style>"""
 
+# Apply theme
 st.markdown(get_theme_css(st.session_state.dark_mode), unsafe_allow_html=True)
 
+# ── Shared styles (always applied) ───────────────────────────────────────────
 st.markdown("""
 <style>
 .score-pill { display:inline-block; padding:3px 13px; border-radius:99px; font-size:12px; font-weight:600; }
 .score-high { background:#d1fae5; color:#065f46; }
 .score-mid  { background:#fef3c7; color:#92400e; }
 .score-low  { background:#fee2e2; color:#991b1b; }
-.skill-tag  { display:inline-block; background:#e0f2fe; color:#0369a1; border-radius:5px; padding:2px 9px; font-size:11px; margin:2px 2px; }
-.skill-gap-tag { display:inline-block; background:#fee2e2; color:#991b1b; border-radius:5px; padding:2px 9px; font-size:11px; margin:2px 2px; }
-.orbit-footer { margin-top:3rem; padding:18px 0 6px; border-top:1px solid #e2e8f0; text-align:center; font-size:13px; }
-.paste-hint { background:#f0f9ff; border-left:4px solid #0ea5e9; border-radius:6px; padding:10px 14px; font-size:13px; color:#0369a1; margin-bottom:10px; }
+.skill-tag  { display:inline-block; background:#e0f2fe; color:#0369a1; border-radius:5px;
+              padding:2px 9px; font-size:11px; margin:2px 2px; font-weight:500; }
+.skill-gap-tag { display:inline-block; background:#fee2e2; color:#991b1b; border-radius:5px;
+                 padding:2px 9px; font-size:11px; margin:2px 2px; font-weight:500; }
+.paste-hint { background:#f0f9ff; border-left:4px solid #0ea5e9; border-radius:6px;
+              padding:10px 14px; font-size:13px; color:#0369a1; margin-bottom:10px; }
 </style>
 """, unsafe_allow_html=True)
 
